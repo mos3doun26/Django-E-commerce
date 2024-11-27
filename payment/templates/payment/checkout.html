@@ -1,0 +1,61 @@
+{% extends "store/base.html" %}
+{% block content %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Checkout</h1>
+            <p class="lead fw-normal text-white-50 mb-0">You're about to get your stuff...</p>
+        </div>
+    </div>
+</header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card my-4">
+                    <div class="card-header">
+                        Order Summary
+                    </div>
+                    <div class="card-body">
+                        {% for product in cart_products %}
+                        <!-- product details -->
+                        <h5 class="card-title">{{product.name}}&nbsp;
+                            {% if product.is_on_sale %}
+                                ${{product.sale_price}}
+                            {% else %}
+                                ${{product.price}}
+                            {% endif %}
+                        </h5>
+
+                            <!-- product quantity -->
+                            {% for key, value in quantities.items %}
+                            <!-- slugify to turn the id from int to str -->
+                                {% if key == product.id|slugify %}
+                                    <p>quantity: {{value}}</p>
+                                {% endif %}
+                            {% endfor%}
+                        {% endfor %}
+                        <div class="col d-flex align-items-center justify-content-between">
+                            <h5>Total: ${{total}}</h5> 
+                            <a href="{% url 'cart_summary' %}" class="btn btn-sm btn-outline-secondary">Update Items</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- adding shipping info -->
+                <div class="card my-4">
+                    <div class="card-header">
+                        Shipping Info
+                    </div>
+                    <div class="card-body">
+                        <!-- here the form -->
+                        <form method="post" action="{% url 'billing_info' %}">
+                            {% csrf_token %}
+                            {{shipping_form}}
+                            <button type="submit" class="btn btn-secondary">Go to Billing Now</button>
+                        </form>
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

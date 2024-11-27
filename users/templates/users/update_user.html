@@ -1,0 +1,32 @@
+{% extends "store/base.html" %}
+{% block content %}
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Profile ...</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Update your profile ...</p>
+        </div>
+    </div>
+</header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <form class="form" method="POST">
+                    {% csrf_token %}
+                    {% for field in user_form %}
+                        <div class="mb-3">
+                            {{ field }}
+                        </div>
+                    {% endfor%}
+                    <div class="mb-3">
+                        <input class="btn btn-primary d-block mx-auto" type="submit" value="Update Now">
+                    </div>
+                    <a class="btn btn-secondary d-block mx-auto" style="width: fit-content;" href="{% url 'update_password' %}">Update Your Password</a>
+                    <div class="mb-3">
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}
